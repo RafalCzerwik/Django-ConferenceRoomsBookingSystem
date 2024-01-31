@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
+import datetime
 
-from Booking_app.models import ConferenceRoom
+from Booking_app.models import ConferenceRoom, RoomReservation
 
 
 # Create your views here.
@@ -53,7 +54,7 @@ class ModifyRoomView(View):
 
         if not name:
             return render(request, 'modify_room.html', {'room': room, 'error': 'The conference room name was not provided'})
-        if capacity <=0:
+        if capacity <= 0:
             return render(request, 'modify_room.html', {'room': room, 'error': 'The room capacity must be a positive number'})
         if name != room.name and ConferenceRoom.objects.filter(name=name).first():
             return render(request, 'modify_room.html', {'room': room, 'error': 'The room with the provided name already exists'})
@@ -75,4 +76,10 @@ class ReserveRoomView(View):
         date = request.POST.get('reservation-date')
         comment = request.POST.get('comment')
 
-        
+        if RoomReservation.objects.filter(room_id=room, date=date):
+            return render(request, "reserve_room.html", context={"room": room, "error": "The conference room is already booked."})
+        if date < str(datetime.date.today()):
+            return render(request, 'reserve_room.html', {'room': room, 'error': 'The date is from the past.'})
+
+        RoomReservation.objects.create(room_id=room, date=date, comment=comment)
+        return redirect('room-list')
