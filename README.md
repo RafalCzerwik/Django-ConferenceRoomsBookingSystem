@@ -1,2 +1,2 @@
-# Project-Django
- Management and Booking of Conference Halls
+Django-ConferenceRoomsBookingSystem
+Django Project with Booking System for Conference Rooms
