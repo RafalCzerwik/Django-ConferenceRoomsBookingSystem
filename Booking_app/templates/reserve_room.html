@@ -29,7 +29,7 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link" href="/">Lista wszystkich sal<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link active" href="/room/new/">Dodaj sale</a>
+      <a class="nav-item nav-link" href="/room/new/">Dodaj sale</a>
     </div>
   </div>
 </nav>
@@ -38,22 +38,21 @@
 <!-- Form -->
 <div class="card">
   <div class="card-body">
+    <h2>Nazwa sali: {{ room.name }}</h2>
     <form action="" method="POST">
       {% csrf_token %}
       <div class="form-group">
-        <label for="room-name">Nazwa sali</label>
-        <input type="text" class="form-control" id="room-name" aria-describedby="room-name-help" placeholder="Nazwa sali" name="room-name">
-        <small id="room-name-help" class="form-text text-muted">Nazwa sali musi być unikatowa.</small>
+        <label for="reservation-date">Data rezerwacji</label>
+        <input type="date" id="reservation-date" name="reservation-date" max="3000-12-31"
+               min="1000-01-01" class="form-control">
       </div>
+
       <div class="form-group">
-        <label for="capacity">Pojemność sali</label>
-        <input type="number" step="1" class="form-control" id="capacity" placeholder="10" name="capacity">
+        <label for="comment">Komentarz</label>
+        <textarea class="form-control" id="comment" name="comment"></textarea>
       </div>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" name="projector" id="projector">
-        <label class="form-check-label" for="projector">Dostępność rzutnika</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Dodaj salę</button>
+
+      <button type="submit" class="btn btn-primary">Zarezerwuj</button>
     </form>
   </div>
 </div>

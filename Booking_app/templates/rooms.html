@@ -29,7 +29,7 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="/">Lista wszystkich sal<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="/room/new/">Dodaj salę</a>
+      <a class="nav-item nav-link" href="/room/new/">Dodaj sale</a>
     </div>
   </div>
 </nav>
@@ -52,7 +52,7 @@
       <td class="col-2">
         <a href="/room/{{ room.id }}/">{{ room.name }}</a>
       </td>
-      <td class="col-1">{{ room.capacity }}</td>
+      <td class="col-1">{{ room.number_of_seats }}</td>
       {% if room.projector %}
         <td class="col-2" style="color:green;">&#9745;</td>
       {% else %}
