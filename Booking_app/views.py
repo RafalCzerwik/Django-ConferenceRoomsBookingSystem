@@ -96,3 +96,24 @@ class RoomDetailsView(View):
         reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
         return render(request, 'room_details.html', {'room': room, 'reservations': reservations})
 
+
+class SearchRoomView(View):
+    def get(self, request):
+        name = request.GET.get('room-name')
+        capacity = request.GET.get('capacity')
+        capacity = int(capacity) if capacity else 0
+        projector = request.GET.get('projector') == 'on'
+
+        rooms = ConferenceRoom.objects.all()
+        if projector:
+            rooms = rooms.filter(projector=projector)
+        if capacity:
+            rooms = rooms.filter(number_of_seats=capacity)
+        if name in rooms:
+            rooms.filter(name__contains=name)
+
+        for room in rooms:
+            reservation_dates = [reservation.date for reservation in room.roomreservation_set.all()]
+            room.reserved = str(datetime.date.today()) in reservation_dates
+
+        return render(request, "rooms.html", context={"rooms": rooms, "date": datetime.date.today()})

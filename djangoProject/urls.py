@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from Booking_app.views import AddNewRoomView, RoomListView, DeleteRoomView, ModifyRoomView, ReserveRoomView, \
-    RoomDetailsView
+    RoomDetailsView, SearchRoomView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('room/modify/<int:room_id>/', ModifyRoomView.as_view(), name='modify-room'),
     path('room/reserve/<int:room_id>/', ReserveRoomView.as_view(), name='reserve-room'),
     path('room/<int:room_id>/', RoomDetailsView.as_view(), name='room-details'),
+    path('search/', SearchRoomView.as_view(), name='room-list'),
 ]
