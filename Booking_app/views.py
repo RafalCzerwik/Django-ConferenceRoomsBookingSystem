@@ -7,6 +7,17 @@ from Booking_app.models import ConferenceRoom, RoomReservation
 
 # Create your views here.
 class AddNewRoomView(View):
+    """
+    View for adding a new conference room.
+
+    Methods:
+    - get(self, request): Renders the form for adding a new room.
+    - post(self, request): Handles the form submission for adding a new room.
+
+    Example usage:
+    - Access the add new room form: GET request to '/room/new/'
+    - Submit the form to add a new room: POST request to '/room/new/' with form data.
+    """
     def get(self, request):
         return render(request, 'add_room.html')
 
@@ -28,6 +39,15 @@ class AddNewRoomView(View):
 
 
 class RoomListView(View):
+    """
+    View for listing all conference rooms.
+
+    Method:
+    - get(self, request): Retrieves all conference rooms and renders a list view.
+
+    Example usage:
+    - Access the list of conference rooms: GET request to '/'
+    """
     def get(self, request):
         rooms = ConferenceRoom.objects.all()
         for room in rooms:
@@ -37,6 +57,15 @@ class RoomListView(View):
 
 
 class DeleteRoomView(View):
+    """
+    View for deleting a conference room.
+
+    Method:
+    - get(self, request, room_id): Deletes the specified conference room.
+
+    Example usage:
+    - Delete a conference room: GET request to '/room/delete/<room_id>/'
+    """
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         room.delete()
@@ -44,6 +73,17 @@ class DeleteRoomView(View):
 
 
 class ModifyRoomView(View):
+    """
+    View for modifying a conference room.
+
+    Methods:
+    - get(self, request, room_id): Renders the form for modifying the specified room.
+    - post(self, request, room_id): Handles the form submission for modifying the room.
+
+    Example usage:
+    - Access the modify room form: GET request to '/room/modify/<room_id>/'
+    - Submit the form to modify the room: POST request to '/room/modify/<room_id>/' with form data.
+    """
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         return render(request, 'modify_room.html', {'room': room})
@@ -70,6 +110,17 @@ class ModifyRoomView(View):
 
 
 class ReserveRoomView(View):
+    """
+    View for reserving a conference room.
+
+    Methods:
+    - get(self, request, room_id): Renders the reservation form for the specified room.
+    - post(self, request, room_id): Handles the form submission for reserving the room.
+
+    Example usage:
+    - Access the reserve room form: GET request to '/room/reserve/<room_id>/'
+    - Submit the form to reserve the room: POST request to '/room/reserve/<room_id>/' with form data.
+    """
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
@@ -91,6 +142,15 @@ class ReserveRoomView(View):
 
 
 class RoomDetailsView(View):
+    """
+    View for displaying details of a conference room.
+
+    Method:
+    - get(self, request, room_id): Renders the details view for the specified room.
+
+    Example usage:
+    - Access the details of a conference room: GET request to '/room/<room_id>/'
+    """
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
@@ -98,6 +158,15 @@ class RoomDetailsView(View):
 
 
 class SearchRoomView(View):
+    """
+    View for searching conference rooms based on criteria.
+
+    Method:
+    - get(self, request): Renders the search form and displays matching conference rooms.
+
+    Example usage:
+    - Access the search form and view matching rooms: GET request to '/search/'
+    """
     def get(self, request):
         name = request.GET.get('room-name')
         capacity = request.GET.get('capacity')
